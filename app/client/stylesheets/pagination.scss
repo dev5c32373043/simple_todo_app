@@ -1,0 +1,11 @@
+.pagination{
+  position: fixed;
+  margin-left: 300px;
+  bottom: 0;
+  li.active{
+    background-color: #212121;
+  }
+  @media only screen and (max-width: 768px){
+    margin-left: 0px;
+  }
+}

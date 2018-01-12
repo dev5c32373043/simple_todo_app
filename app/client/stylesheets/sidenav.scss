@@ -1,0 +1,20 @@
+.sidenav{
+  overflow: hidden;
+  &-overlay{
+    height: auto;
+  }
+  i{
+    margin-top: 5%;
+  }
+  .subheader{
+    font-size: 20px;
+  }
+  .user-view{
+    min-height: 190px;
+  }
+  .background{
+    img{
+      width: 100%;
+    }
+  }
+}

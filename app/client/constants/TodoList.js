@@ -1,0 +1,12 @@
+export const GET_TODOS      = 'GET_TODOS';
+export const TODOS_RECEIVED = 'TODOS_RECEIVED';
+export const CREATE_TODO    = 'CREATE_TODO';
+export const TODO_CREATED   = 'TODO_CREATED';
+export const UPDATE_TODO    = 'UPDATE_TODO';
+export const TODO_UPDATED   = 'TODO_UPDATED';
+export const REMOVE_TODO    = 'REMOVE_TODO';
+export const TODO_REMOVED   = 'TODO_REMOVED';
+export const SYNC_MODAL     = 'SYNC_MODAL';
+export const SHOW_MODAL     = 'SHOW_MODAL';
+export const FILTER         = 'FILTER';
+export const APPLY_FILTER   = 'APPLY_FILTER';

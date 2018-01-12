@@ -1,0 +1,23 @@
+@import "../../../node_modules/materialize-css/sass/materialize.scss";
+@import "scrollbar";
+@import "header";
+@import "loader";
+@import "inputs";
+@import "sidenav";
+@import "pagination";
+@import "card";
+@import "buttons";
+@import "modal";
+
+body{
+  overflow: auto !important;
+}
+
+.row{
+  max-width: calc(100% - 300px);
+  margin-left: 300px;
+  @media only screen and (max-width: 768px){
+    max-width: 100%;
+    margin-left: 0px;
+  }
+}

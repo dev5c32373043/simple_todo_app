@@ -1,0 +1,4 @@
+{
+  "verbose": true,
+  "ignore": ["app/client/*", "config/webpack.config.js", "public/*", "*.css", "*.html"]  
+}
