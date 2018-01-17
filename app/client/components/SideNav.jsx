@@ -20,12 +20,11 @@ export default class SideNav extends Component{
     });
     const element = document.querySelector('.sidenav'),
     sidenav = M.Sidenav.init(element);
-    sidenav._handleCloseTriggerClickBound = undefined;
   }
   onChange(e){
+    let target;
     const element = document.querySelector('.sidenav'),
     sidenav = M.Sidenav.getInstance(element);
-    let target;
     if(e.name == 'createdAt'){
       if(e.value.length) e.value = e.value.toString();
       target = e;

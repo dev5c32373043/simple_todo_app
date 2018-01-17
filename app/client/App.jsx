@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import Main from './pages/Main.jsx';
+import Router from './Router.jsx';
 import store from './store';
 
 class App extends Component{
@@ -13,7 +13,7 @@ class App extends Component{
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router />
   </Provider>,
   document.getElementById('root')
 )

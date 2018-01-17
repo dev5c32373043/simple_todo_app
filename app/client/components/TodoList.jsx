@@ -10,19 +10,16 @@ export default class TodoList extends Component{
     this.renderItems = this.renderItems.bind(this);
   }
   renderItems(data){
-    let result = [];
     const { dataReceived, showModal, removeTodo } = this.props;
     if(dataReceived){
-      for(let todo of data){
-        result.push(
-          <TodoItem
-            key={todo._id}
-            showModal={showModal}
-            removeTodo={removeTodo}
-            todo={todo} />
-          )
-      }
-      return result;
+      return data.map((todo)=>(
+        <TodoItem
+          key={todo._id}
+          showModal={showModal}
+          removeTodo={removeTodo}
+          todo={todo} />
+        )
+      )
     }else{
       return <Loader />
     }

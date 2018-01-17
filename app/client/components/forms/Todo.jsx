@@ -34,7 +34,7 @@ class TodoForm extends Component{
         <Field id="title" name='title' label='Title' className='validate' component={this.renderField} />
         <Field id="description" name='description' label='Description' component={this.renderField} />
         <div className="modal-footer">
-          <button type='button' onClick={handleSubmit(this.onSubmit)} 
+          <button type='button' onClick={handleSubmit(this.onSubmit)}
             className="modal-action center waves-effect waves-grey btn-flat" disabled={submitting || pristine}>Submit</button>
         </div>
       </form>
@@ -44,16 +44,15 @@ class TodoForm extends Component{
 
 const validate = (values)=>{
   let errors = {};
-  const regex = /^[A-za-z0-9].{2,}/,
-  keys = ['title', 'description'];
-  for(let key of keys){
+  const regex = /^[A-za-z0-9].{2,}/;
+  Array('title', 'description').map((key)=>{
     if(!values[key]){
       errors[key] = `${key} required!`;
     }
     if(!regex.test(values[key])){
       errors[key] = `${key} must begin from letter and greater than or equal three symbols!`
     }
-  }
+  })
   return errors
 }
 

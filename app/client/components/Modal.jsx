@@ -4,8 +4,7 @@ import TodoForm from './forms/Todo.jsx';
 
 export default class Modal extends Component{
   componentDidMount(){
-    const elem = document.querySelector('.modal');
-    M.Modal.init(elem);
+    M.Modal.init(document.querySelector('.modal'));
   }
   render(){
     return(

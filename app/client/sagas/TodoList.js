@@ -103,7 +103,7 @@ function* filter(action){
   const { todoState } = store.getState(),
   paramsKeys = Object.keys(Object.assign({}, action.filterParams, todoState.filterParams));
   let filtredTodos = [...todoState.todos];
-  for(let key of paramsKeys){
+  paramsKeys.map((key)=>{
     if(key == 'title'){
       let isIncludeParams = Object.keys(action.filterParams).includes('title');
       let value = (isIncludeParams ? action.filterParams[key] : todoState.filterParams[key]);
@@ -117,7 +117,7 @@ function* filter(action){
         return (new Date(todo.createdAt) >= (value.length ? new Date(value) : value))
       })
     }
-  }
+  })
   yield put(actions.applyFilter({
     filtredTodos: filtredTodos,
     filterParams: action.filterParams
