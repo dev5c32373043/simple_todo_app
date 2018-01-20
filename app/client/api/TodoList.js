@@ -1,4 +1,4 @@
-import request from '/';
+import request from './';
 
 export const get = async ()=>{
   const resp = await request('/todos', 'GET');

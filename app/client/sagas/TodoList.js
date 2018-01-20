@@ -1,36 +1,35 @@
 import { GET_TODOS, CREATE_TODO, UPDATE_TODO, REMOVE_TODO, SHOW_MODAL, FILTER } from '../constants/TodoList';
 
-import { put, call, takeEvery } from 'redux-saga/effects';
+import { put, call, takeEvery, select } from 'redux-saga/effects';
 import { reset } from 'redux-form';
 
 import * as actions from '../actions/TodoList';
 import * as api from '../api/TodoList';
-import store from '../store';
 
 const closeModal = ()=>{
   const modal = document.getElementById('todo_modal');
   M.Modal.getInstance(modal).close()
 }
 
-function* updateFilterData(){
-  const { todoState } = store.getState()
+export function* updateFilterData(){
+  const todoState = yield select((store)=> store.todoState);
   if(Object.keys(todoState.filterParams).length){
     yield put(actions.filter({}))
   }
 }
 
-const createTodo = async (action)=>{
+const createTodo = async (action, storeTodos)=>{
   const json = await api.create(action.todo);
   closeModal()
-  let todos = [...store.getState().todoState.todos]
+  let todos = [...storeTodos]
   todos.unshift(json.todo);
   return todos;
 }
 
-const changeTodo = async (action)=>{
+const changeTodo = async (action, storeTodos)=>{
   const json = await api.update(action.todo);
   closeModal()
-  let todos = [...store.getState().todoState.todos], index;
+  let todos = [...storeTodos], index;
   let filtredTodos = todos.filter((todo, i)=> {
     if(todo._id != action.todo._id){
       return true;
@@ -42,15 +41,14 @@ const changeTodo = async (action)=>{
   return filtredTodos;
 }
 
-const removeTodo = async (action)=>{
+const removeTodo = async (action, storeTodos)=>{
   const resp = await api.remove(action.id);
   if(resp.status == 200){
-    return store.getState().todoState.todos
-    .filter((todo)=> todo._id != action.id);
+    return storeTodos.filter((todo)=> todo._id != action.id);
   }
 }
 
-function* getTodos(){
+export function* getTodos(){
   if(navigator.cookieEnabled){
     const todos = yield call(api.get);
     yield put(actions.todosReceived({
@@ -62,9 +60,10 @@ function* getTodos(){
   }
 }
 
-function* addTodo(action){
+export function* addTodo(action){
   if(navigator.cookieEnabled){
-    const todos = yield call(createTodo, action)
+    const storeTodos = yield select((store)=> store.todoState.todos);
+    const todos = yield call(createTodo, action, storeTodos)
     yield put(reset('todo'))
     yield put(actions.todoCreated({
       todos: todos,
@@ -76,8 +75,9 @@ function* addTodo(action){
   }
 }
 
-function* updateTodo(action){
-  const todos = yield call(changeTodo, action)
+export function* updateTodo(action){
+  const storeTodos = yield select((store)=> store.todoState.todos);
+  const todos = yield call(changeTodo, action, storeTodos)
   yield put(actions.todoUpdated({
     todos: todos,
     dataReceived: true
@@ -85,22 +85,23 @@ function* updateTodo(action){
   yield updateFilterData()
 }
 
-function* deleteTodo(action){
-  const todos = yield call(removeTodo, action)
+export function* deleteTodo(action){
+  const storeTodos = yield select((store)=> store.todoState.todos);
+  const todos = yield call(removeTodo, action, storeTodos)
   yield put(actions.todoRemoved({
     todos: todos
   }))
   yield updateFilterData()
 }
 
-function* showModal(action){
+export function* showModal(action){
   yield put(actions.syncModal(action.todo))
   const modal = document.getElementById('todo_modal');
   M.Modal.getInstance(modal).open();
 }
 
-function* filter(action){
-  const { todoState } = store.getState(),
+export function* filter(action){
+  const todoState = yield select((store)=> store.todoState),
   paramsKeys = Object.keys(Object.assign({}, action.filterParams, todoState.filterParams));
   let filtredTodos = [...todoState.todos];
   paramsKeys.map((key)=>{
